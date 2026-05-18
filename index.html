@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>나의 영양제 복용 가이드</title>
+<meta name="description" content="보유 중인 8가지 영양제의 복용 시간, 복용량, 주의사항을 한눈에 정리한 가이드" />
+<style>
+  :root {
+    --bg: #f6f8fa;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --primary: #2563eb;
+    --accent: #10b981;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --border: #e5e7eb;
+    --morning: #fef3c7;
+    --noon: #dbeafe;
+    --evening: #ede9fe;
+    --night: #1f2937;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
+    color: white;
+    padding: 48px 24px 56px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 8px; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+  header p { margin: 0; opacity: 0.92; font-size: 0.98rem; }
+  main { max-width: 980px; margin: -32px auto 0; padding: 0 16px 64px; }
+  .disclaimer {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    margin: 0 0 24px;
+  }
+  .disclaimer strong { color: #7c2d12; }
+
+  section.schedule {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    margin-bottom: 32px;
+  }
+  section.schedule h2 {
+    margin: 0 0 16px;
+    font-size: 1.25rem;
+  }
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .slot {
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+  }
+  .slot h3 { margin: 0 0 8px; font-size: 1.05rem; display: flex; align-items: center; gap: 6px; }
+  .slot.morning { background: var(--morning); }
+  .slot.noon { background: var(--noon); }
+  .slot.evening { background: var(--evening); }
+  .slot.night { background: var(--night); color: #fafafa; }
+  .slot.night .pill { background: rgba(255,255,255,0.12); color: #fafafa; border-color: rgba(255,255,255,0.24); }
+  .slot ul { margin: 0; padding-left: 18px; font-size: 0.92rem; }
+  .slot li { margin-bottom: 4px; }
+  .pill {
+    display: inline-block;
+    font-size: 0.72rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 8px;
+    margin-left: 6px;
+    color: var(--muted);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    border-top: 4px solid var(--primary);
+    display: flex;
+    flex-direction: column;
+  }
+  .card.gut { border-top-color: #f59e0b; }
+  .card.cardio { border-top-color: #ef4444; }
+  .card.mineral { border-top-color: #6366f1; }
+  .card.vitamin { border-top-color: #fbbf24; }
+  .card.sleep { border-top-color: #8b5cf6; }
+  .card.energy { border-top-color: #10b981; }
+  .card.folate { border-top-color: #14b8a6; }
+
+  .card h3 { margin: 0 0 4px; font-size: 1.1rem; }
+  .card .brand { font-size: 0.82rem; color: var(--muted); margin-bottom: 14px; }
+  .specs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 0.92rem;
+  }
+  .specs div { display: flex; gap: 8px; }
+  .specs .label {
+    flex: 0 0 78px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .tag {
+    font-size: 0.74rem;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+  }
+  .tag.warn { background: #fef3c7; color: #92400e; }
+  .tag.good { background: #dcfce7; color: #166534; }
+
+  details {
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+    margin-top: auto;
+  }
+  details summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--primary);
+    list-style: none;
+  }
+  details summary::after { content: " ▾"; font-size: 0.8em; }
+  details[open] summary::after { content: " ▴"; }
+  details p, details ul { font-size: 0.9rem; margin: 8px 0; }
+  details ul { padding-left: 18px; }
+
+  .why { font-size: 0.92rem; color: var(--text); margin: 0 0 12px; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    padding: 24px;
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.5rem; }
+    main { padding: 0 12px 48px; }
+    section.schedule, .card { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>나의 영양제 복용 가이드</h1>
+  <p>8가지 보충제를 언제, 얼마나 먹어야 하는지 한눈에</p>
+</header>
+
+<main>
+  <div class="disclaimer">
+    <strong>⚠️ 안내:</strong> 이 페이지는 일반적인 권장 정보를 정리한 개인 메모입니다. 제품 라벨의 지시사항이 우선이며, 복용 중인 약이 있거나 임신·수유·만성질환이 있다면 반드시 의사·약사와 상담하세요.
+  </div>
+
+  <section class="schedule">
+    <h2>⏰ 하루 시간표 한눈에 보기</h2>
+    <div class="timeline">
+      <div class="slot morning">
+        <h3>🌅 아침 식후 <span class="pill">기상 직후~아침식사</span></h3>
+        <ul>
+          <li>B-Complex + 비타민 C — 1정</li>
+          <li>L-Methylfolate 5-MTHF — 1캡슐</li>
+          <li>CoQ10 + PQQ — 1캡슐 (지방 함께)</li>
+          <li>숙성마늘(Kyolic) — 1캡슐</li>
+        </ul>
+      </div>
+      <div class="slot noon">
+        <h3>🍽️ 점심 식후</h3>
+        <ul>
+          <li>칼슘·마그네슘·아연 + D3 — 1정 (1차)</li>
+          <li>Arterial Protect — 1캡슐 (격일 또는 매일)</li>
+        </ul>
+      </div>
+      <div class="slot evening">
+        <h3>🌆 저녁 식후</h3>
+        <ul>
+          <li>칼슘·마그네슘·아연 + D3 — 1정 (2차)</li>
+          <li>프로바이오틱스(LactoBif 5) — 1캡슐 (식전 또는 식후)</li>
+        </ul>
+      </div>
+      <div class="slot night">
+        <h3>🌙 취침 30~60분 전</h3>
+        <ul>
+          <li>글라이신 500mg — 2~6캡슐 (총 1~3g)</li>
+          <li>수면 질 개선 / 심부체온 저하에 도움</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="cards">
+
+    <article class="card gut">
+      <h3>1. LactoBif 5 Probiotics</h3>
+      <div class="brand">California Gold Nutrition · 50억 CFU · 60캡슐</div>
+      <p class="why">8종의 균주(Lactobacillus 5종 + Bifidobacterium 3종)로 장내 균형을 잡아주는 프로바이오틱스입니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 1캡슐</span></div>
+        <div><span class="label">시간</span><span>저녁 식사 직전 또는 직후(공복 자극 약한 사람은 식후)</span></div>
+        <div><span class="label">함께</span><span>물 한 컵, 위산 노출 줄이려면 식사 중·직후 권장</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag good">상온 보관 가능</span>
+        <span class="tag good">유제품 무함유</span>
+        <span class="tag">베지캡슐</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>항생제 복용 시 최소 2시간 간격을 두고 복용</li>
+          <li>장 트러블이 심하면 첫 1주는 격일 1캡슐로 시작</li>
+          <li>면역억제제 복용자는 사전 의사 상담</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card sleep">
+      <h3>2. Glycine 글라이신</h3>
+      <div class="brand">Source Naturals · 500mg · 100캡슐</div>
+      <p class="why">아미노산으로 심부체온을 낮춰 깊은 수면(서파수면)을 유도하는 데 도움을 줍니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 1~3g (캡슐 2~6개)</span></div>
+        <div><span class="label">시간</span><span>취침 30~60분 전</span></div>
+        <div><span class="label">함께</span><span>공복에 따뜻한 물과 함께(흡수 빠름)</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">수면 보조</span>
+        <span class="tag">아미노산</span>
+        <span class="tag good">Non-GMO</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>임상 연구는 보통 취침 전 3g 1회 복용 기준</li>
+          <li>처음에는 1g(2캡슐)로 시작해 점차 늘릴 것</li>
+          <li>클로자핀(정신과 약) 복용 중이면 사용 금지</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card cardio">
+      <h3>3. Kyolic Cardiovascular 250</h3>
+      <div class="brand">Wakunaga · 숙성마늘 추출물 · 60캐플릿</div>
+      <p class="why">숙성마늘(AGE)이 혈압·콜레스테롤 관리, 혈관 건강 유지에 도움을 줍니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 1캐플릿 (One Per Day)</span></div>
+        <div><span class="label">시간</span><span>아침 식사와 함께</span></div>
+        <div><span class="label">함께</span><span>식사 중 복용 시 위 부담↓, 마늘 냄새↓</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag good">무취 숙성마늘</span>
+        <span class="tag">심혈관</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>와파린·아스피린 등 항응고제 복용자는 출혈 위험 주의 → 의사 상담</li>
+          <li>수술 예정이면 최소 1~2주 전 중단</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card mineral">
+      <h3>4. Calcium Magnesium Zinc + D3</h3>
+      <div class="brand">21st Century · 90정</div>
+      <p class="why">뼈 건강의 핵심 미네랄 3종과 비타민 D3가 함께 들어 있는 종합 미네랄제입니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 2정 (제품 라벨 기준)</span></div>
+        <div><span class="label">시간</span><span>점심 1정 + 저녁 1정 (식후)</span></div>
+        <div><span class="label">함께</span><span>음식과 함께(흡수↑), 한 번에 칼슘 500mg 이상은 비효율</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">뼈 건강</span>
+        <span class="tag good">Gluten-Free</span>
+        <span class="tag warn">철분과 분리</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>칼슘은 한 번에 500mg 이내로 나눠 먹는 것이 흡수에 유리</li>
+          <li>갑상선약·항생제(테트라사이클린, 퀴놀론)와는 2~4시간 간격</li>
+          <li>철분 보충제와 동시 복용 금지(둘 다 흡수↓)</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card vitamin">
+      <h3>5. B-Complex Plus Vitamin C</h3>
+      <div class="brand">21st Century · 100정</div>
+      <p class="why">에너지 대사에 관여하는 B군 비타민 전체와 항산화 비타민 C를 합친 활력 보충제입니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 1정</span></div>
+        <div><span class="label">시간</span><span>아침 식후 (밤에 먹으면 각성 가능)</span></div>
+        <div><span class="label">함께</span><span>물과 함께, 식사 직후 권장</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">에너지</span>
+        <span class="tag good">Non-GMO</span>
+        <span class="tag warn">소변 노란색 정상</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>리보플라빈(B2) 때문에 소변이 진한 노란색이 되는 건 정상</li>
+          <li>공복 시 메스꺼움 가능 → 반드시 식후</li>
+          <li>저녁 늦게 먹으면 잠 방해 가능</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card cardio">
+      <h3>6. Arterial Protect</h3>
+      <div class="brand">Life Extension · 30캡슐 · 혈관 내피 지원</div>
+      <p class="why">소나무껍질·감귤 추출물 등으로 동맥 내피 기능과 혈류를 지원하는 보조제입니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 1캡슐</span></div>
+        <div><span class="label">시간</span><span>점심 식사와 함께</span></div>
+        <div><span class="label">함께</span><span>식사 중 복용 (지방 흡수 성분)</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">혈관 건강</span>
+        <span class="tag warn">항응고제 주의</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>항응고제·항혈소판제 복용자는 의사 상담 필수</li>
+          <li>30캡슐이라 1개월분 → 떨어지는 시기에 다음 보충 일정 메모</li>
+          <li>임산부·수유부는 사용 금지</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card folate">
+      <h3>7. L-Methylfolate 5-MTHF 15mg</h3>
+      <div class="brand">Probase Nutrition · 60캡슐 · 활성형 엽산</div>
+      <p class="why">엽산을 체내에서 바로 쓸 수 있는 활성형(5-MTHF)으로 공급합니다. MTHFR 유전자 변이 보유자에게 특히 권장됩니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 1캡슐(15mg은 고용량) — 의사 처방 따르기</span></div>
+        <div><span class="label">시간</span><span>아침 식후</span></div>
+        <div><span class="label">함께</span><span>B12와 함께 복용 권장(B-Complex에 포함)</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag good">활성형</span>
+        <span class="tag warn">고용량</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>15mg은 일반 식이 권장량(0.4mg)을 크게 초과하는 치료 용량 → 자가 판단 복용 비권장, 의사 상담</li>
+          <li>비타민 B12 결핍을 가리는(masking) 위험 → B12 동반 섭취</li>
+          <li>일부에서 불면, 짜증 등 부작용 가능 → 격일 또는 1/2 캡슐로 시작</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card energy">
+      <h3>8. CoQ10 with PQQ</h3>
+      <div class="brand">California Gold Nutrition · 100mg CoQ10 + 10mg PQQ · 60 소프트젤</div>
+      <p class="why">미토콘드리아 에너지 생산(CoQ10)과 미토콘드리아 생합성(PQQ)을 함께 지원합니다.</p>
+      <div class="specs">
+        <div><span class="label">복용량</span><span>1일 1소프트젤</span></div>
+        <div><span class="label">시간</span><span>아침 또는 점심 식사와 함께</span></div>
+        <div><span class="label">함께</span><span>지방이 있는 식사와 함께(지용성 → 흡수↑)</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">에너지</span>
+        <span class="tag">미토콘드리아</span>
+        <span class="tag warn">저녁 늦게 X</span>
+      </div>
+      <details>
+        <summary>주의사항 / 팁</summary>
+        <ul>
+          <li>저녁 늦게 먹으면 일부에서 각성·수면 방해 → 오전~오후가 안전</li>
+          <li>와파린의 효과를 약화시킬 수 있음 → 항응고제 복용자 의사 상담</li>
+          <li>스타틴 복용자에게 특히 유용한 보조제</li>
+        </ul>
+      </details>
+    </article>
+
+  </div>
+
+  <section class="schedule" style="margin-top:32px;">
+    <h2>💡 핵심 원칙 5가지</h2>
+    <ol>
+      <li><strong>지용성은 식사와 함께:</strong> 비타민 D3, CoQ10, PQQ, Arterial Protect는 지방 있는 식사와 함께.</li>
+      <li><strong>수용성은 식후 물과 함께:</strong> B군, 비타민 C는 아침 식후가 가장 무난.</li>
+      <li><strong>각성 효과 영양제는 오전:</strong> B군, CoQ10/PQQ는 저녁 늦게 먹지 않기.</li>
+      <li><strong>칼슘은 분할:</strong> 한 번에 500mg 이상 칼슘은 흡수 효율이 떨어지니 점심·저녁으로 나눠 복용.</li>
+      <li><strong>간격 두기:</strong> 항생제·갑상선약·철분제와 미네랄·프로바이오틱스는 2~4시간 간격.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer>
+  © 나의 영양제 가이드 · 라벨의 권장 복용량과 의료 전문가의 조언이 최우선입니다.
+</footer>
+
+</body>
+</html>
