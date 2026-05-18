@@ -45,13 +45,55 @@
   .disclaimer {
     background: #fff7ed;
     border: 1px solid #fed7aa;
-    color: #9a3412;
-    padding: 14px 18px;
+    border-left: 5px solid #f97316;
+    color: #7c2d12;
+    padding: 16px 18px;
     border-radius: 12px;
-    font-size: 0.92rem;
     margin: 0 0 24px;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+    align-items: start;
   }
-  .disclaimer strong { color: #7c2d12; }
+  .disclaimer-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .disclaimer-title {
+    font-size: 0.98rem;
+    font-weight: 800;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .disclaimer-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+  .disclaimer-list li {
+    padding-left: 14px;
+    position: relative;
+  }
+  .disclaimer-list li::before {
+    content: "•";
+    position: absolute;
+    left: 2px;
+    color: #f97316;
+    font-weight: 700;
+  }
+  .disclaimer-list strong { color: #7c2d12; font-weight: 700; }
+  @media (max-width: 600px) {
+    .disclaimer { grid-template-columns: 28px 1fr; gap: 10px; padding: 14px 14px; }
+    .disclaimer-icon { font-size: 1.25rem; }
+    .disclaimer-title { font-size: 0.92rem; }
+    .disclaimer-list { font-size: 0.84rem; }
+  }
 
   /* ── 상단 시간표 ── */
   section.schedule {
@@ -436,8 +478,16 @@
 </header>
 
 <main>
-  <div class="disclaimer">
-    <strong>⚠️ 안내:</strong> 이 페이지는 일반적인 권장 정보를 정리한 개인 메모입니다. 제품 라벨의 지시사항이 우선이며, 복용 중인 약이 있거나 임신·수유·만성질환이 있다면 반드시 의사·약사와 상담하세요.
+  <div class="disclaimer" role="note">
+    <span class="disclaimer-icon" aria-hidden="true">⚠️</span>
+    <div>
+      <h2 class="disclaimer-title">복용 전 꼭 확인하세요</h2>
+      <ul class="disclaimer-list">
+        <li>이 페이지는 <strong>일반 권장 정보를 정리한 개인 메모</strong>입니다</li>
+        <li>제품 <strong>라벨의 지시사항</strong>이 항상 우선합니다</li>
+        <li>복약 중 · 임신 · 수유 · 만성질환이 있다면 <strong>반드시 의사·약사와 상담</strong>하세요</li>
+      </ul>
+    </div>
   </div>
 
   <!-- ============ 상단 시간표 ============ -->
