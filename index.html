@@ -12,16 +12,14 @@
     --text: #1f2937;
     --muted: #6b7280;
     --primary: #2563eb;
-    --accent: #10b981;
-    --warn: #f59e0b;
-    --danger: #ef4444;
     --border: #e5e7eb;
-    --morning: #fef3c7;
-    --morning-strong: #f59e0b;
-    --noon: #dbeafe;
+    --morning-strong: #d97706;
+    --morning-bg: #fffbeb;
     --noon-strong: #2563eb;
+    --noon-bg: #eff6ff;
     --night: #1f2937;
     --night-strong: #8b5cf6;
+    --night-bg: #f5f3ff;
   }
   * { box-sizing: border-box; }
   img { image-orientation: from-image; }
@@ -31,16 +29,19 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
+  h1, h2, h3, p, li, div, span, small, strong { word-break: keep-all; overflow-wrap: break-word; }
   header {
     background: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
     color: white;
-    padding: 48px 24px 64px;
+    padding: 44px 24px 60px;
     text-align: center;
   }
   header h1 { margin: 0 0 8px; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
   header p { margin: 0; opacity: 0.92; font-size: 0.98rem; }
-  main { max-width: 1040px; margin: -36px auto 0; padding: 0 16px 64px; }
+  main { max-width: 880px; margin: -36px auto 0; padding: 0 16px 64px; }
   .disclaimer {
     background: #fff7ed;
     border: 1px solid #fed7aa;
@@ -52,6 +53,7 @@
   }
   .disclaimer strong { color: #7c2d12; }
 
+  /* ── 상단 시간표 ── */
   section.schedule {
     background: var(--card);
     border-radius: 16px;
@@ -59,57 +61,89 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     margin-bottom: 32px;
   }
-  section.schedule h2 {
-    margin: 0 0 16px;
-    font-size: 1.25rem;
-  }
+  section.schedule h2 { margin: 0 0 16px; font-size: 1.3rem; }
   .timeline {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
   .slot {
-    border-radius: 14px;
-    padding: 18px;
-    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 18px 14px;
+    border: 2px solid var(--border);
   }
-  .slot h3 { margin: 0 0 12px; font-size: 1.08rem; }
-  .slot.morning { background: var(--morning); border-color: #fde68a; }
-  .slot.noon { background: var(--noon); border-color: #bfdbfe; }
-  .slot.night { background: var(--night); color: #fafafa; border-color: #374151; }
-  .slot.night .item-text { color: #e5e7eb; }
-  .slot.night .item-text strong { color: #fafafa; }
-  .slot-items {
+  .slot.morning { background: var(--morning-bg); border-color: #fcd34d; }
+  .slot.noon    { background: var(--noon-bg);    border-color: #93c5fd; }
+  .slot.night   { background: var(--night);      border-color: #4c1d95; color: #fafafa; }
+
+  .slot-header {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed rgba(0,0,0,0.12);
   }
+  .slot.night .slot-header { border-bottom-color: rgba(255,255,255,0.2); }
+  .slot-title { margin: 0; font-size: 1.05rem; font-weight: 800; }
+  .slot-summary { font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+  .slot.night .slot-summary { color: #cbd5e1; }
+
+  .slot-items { display: flex; flex-direction: column; gap: 10px; }
   .item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
     align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,0.55);
-    border-radius: 10px;
-    padding: 8px 10px;
+    gap: 12px;
+    background: rgba(255,255,255,0.65);
+    border-radius: 12px;
+    padding: 10px;
   }
   .slot.night .item { background: rgba(255,255,255,0.08); }
   .item-thumb {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     object-fit: cover;
-    border-radius: 8px;
-    flex-shrink: 0;
+    border-radius: 10px;
     background: #fff;
+    cursor: zoom-in;
   }
-  .item-text { font-size: 0.92rem; line-height: 1.35; }
-  .item-text strong { display: block; font-size: 0.97rem; margin-bottom: 2px; }
-  .item-text .count { color: var(--muted); font-size: 0.86rem; }
-  .slot.night .item-text .count { color: #cbd5e1; }
+  .item-name { font-size: 0.96rem; font-weight: 700; line-height: 1.3; }
+  .item-note { display: block; font-size: 0.78rem; font-weight: 500; color: var(--muted); margin-top: 2px; }
+  .slot.night .item-note { color: #cbd5e1; }
+  .item-qty {
+    font-size: 1.05rem;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    color: white;
+  }
+  .slot.morning .item-qty { background: var(--morning-strong); }
+  .slot.noon    .item-qty { background: var(--noon-strong); }
+  .slot.night   .item-qty { background: var(--night-strong); }
 
+  /* ── 시간대 섹션 헤더 ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 36px 0 16px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+  .section-header.morning { background: var(--morning-bg); color: #92400e; border-left: 6px solid var(--morning-strong); }
+  .section-header.noon    { background: var(--noon-bg);    color: #1e40af; border-left: 6px solid var(--noon-strong); }
+  .section-header.night   { background: var(--night-bg);   color: #5b21b6; border-left: 6px solid var(--night-strong); }
+  .section-header .sub { font-size: 0.85rem; font-weight: 600; opacity: 0.75; margin-left: auto; }
+
+  /* ── 카드: 1열로 쭉 나열 ── */
   .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
   .card {
     background: var(--card);
@@ -117,7 +151,7 @@
     padding: 20px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     display: grid;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 160px 1fr;
     gap: 18px;
     border-left: 5px solid var(--primary);
   }
@@ -136,34 +170,49 @@
     border-radius: 12px;
     background: #f3f4f6;
     align-self: start;
+    cursor: zoom-in;
+    transition: transform 0.15s;
   }
+  .card-photo:hover { transform: scale(1.02); }
+
   .card-body { display: flex; flex-direction: column; min-width: 0; }
-  .card-body h3 { margin: 0 0 2px; font-size: 1.12rem; }
+  .card-body h3 { margin: 0 0 2px; font-size: 1.15rem; }
   .card-body .brand { font-size: 0.82rem; color: var(--muted); margin-bottom: 12px; }
 
   .dose-badge {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 8px;
-    background: #f3f4f6;
-    border-radius: 10px;
-    padding: 10px 12px;
+    gap: 12px;
+    border-radius: 12px;
+    padding: 12px 14px;
     margin-bottom: 12px;
-    font-size: 0.92rem;
-    border-left: 4px solid var(--primary);
+    border-left: 5px solid var(--primary);
   }
-  .dose-badge.morning { background: #fffbeb; border-left-color: var(--morning-strong); }
-  .dose-badge.noon { background: #eff6ff; border-left-color: var(--noon-strong); }
-  .dose-badge.night { background: #f5f3ff; border-left-color: var(--night-strong); }
-  .dose-badge .when { font-weight: 700; }
-  .dose-badge .qty { color: var(--muted); }
+  .dose-badge.morning { background: var(--morning-bg); border-left-color: var(--morning-strong); }
+  .dose-badge.noon    { background: var(--noon-bg);    border-left-color: var(--noon-strong); }
+  .dose-badge.night   { background: var(--night-bg);   border-left-color: var(--night-strong); }
+  .dose-badge .when { font-weight: 800; font-size: 0.95rem; line-height: 1.3; }
+  .dose-badge .when small {
+    display: block;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+  .dose-badge .qty-big {
+    font-size: 1.4rem;
+    font-weight: 900;
+    padding: 6px 14px;
+    border-radius: 999px;
+    color: white;
+    white-space: nowrap;
+  }
+  .dose-badge.morning .qty-big { background: var(--morning-strong); }
+  .dose-badge.noon    .qty-big { background: var(--noon-strong); }
+  .dose-badge.night   .qty-big { background: var(--night-strong); }
 
-  .why {
-    font-size: 0.9rem;
-    color: var(--text);
-    margin: 0 0 12px;
-    line-height: 1.5;
-  }
+  .why { font-size: 0.9rem; color: var(--text); margin: 0 0 12px; line-height: 1.5; }
 
   .benefits, .cautions {
     margin: 0 0 10px;
@@ -198,6 +247,7 @@
   }
   .benefits li:not(:first-child), .cautions li:not(:first-child) { margin-top: 4px; }
 
+  /* ── 핵심 원칙 (축약 + 깔끔) ── */
   section.principles {
     background: var(--card);
     border-radius: 16px;
@@ -205,9 +255,42 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     margin-top: 32px;
   }
-  section.principles h2 { margin: 0 0 12px; font-size: 1.2rem; }
-  section.principles ol { padding-left: 22px; margin: 0; }
-  section.principles li { margin-bottom: 6px; }
+  section.principles h2 { margin: 0 0 16px; font-size: 1.2rem; }
+  .principle-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: rule;
+  }
+  .principle-list li {
+    counter-increment: rule;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 14px 14px 14px 50px;
+    position: relative;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .principle-list li::before {
+    content: counter(rule);
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .principle-list strong { display: block; margin-bottom: 2px; color: var(--primary); }
 
   footer {
     text-align: center;
@@ -216,22 +299,81 @@
     padding: 24px;
   }
 
-  @media (max-width: 720px) {
-    .cards { grid-template-columns: 1fr; }
-    .card {
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    .card-photo {
-      max-width: 220px;
-      margin: 0 auto;
-    }
+  /* ── Lightbox (사진 확대) ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 24px;
+    cursor: zoom-out;
   }
-  @media (max-width: 480px) {
-    header h1 { font-size: 1.5rem; }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.28); }
+
+  @media (max-width: 900px) {
+    .timeline { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    header { padding: 36px 16px 52px; }
+    header h1 { font-size: 1.45rem; }
+    header p { font-size: 0.88rem; }
     main { padding: 0 12px 48px; }
-    section.schedule, .card, section.principles { padding: 16px; }
-    .item-thumb { width: 42px; height: 42px; }
+    section.schedule, .card, section.principles { padding: 14px; }
+    section.schedule h2 { font-size: 1.1rem; }
+
+    .item { grid-template-columns: 44px 1fr auto; gap: 10px; padding: 8px; }
+    .item-thumb { width: 44px; height: 44px; border-radius: 8px; }
+    .item-name { font-size: 0.88rem; }
+    .item-note { font-size: 0.74rem; }
+    .item-qty { font-size: 0.86rem; padding: 5px 10px; }
+
+    .section-header { font-size: 0.98rem; flex-wrap: wrap; padding: 10px 14px; }
+    .section-header .sub { margin-left: 0; width: 100%; font-size: 0.78rem; }
+
+    .card { grid-template-columns: 96px 1fr; gap: 12px; padding: 14px; }
+    .card-photo { border-radius: 10px; }
+    .card-body h3 { font-size: 1.02rem; }
+    .card-body .brand { font-size: 0.76rem; margin-bottom: 10px; }
+    .dose-badge { padding: 10px 12px; }
+    .dose-badge .when { font-size: 0.88rem; }
+    .dose-badge .when small { font-size: 0.72rem; }
+    .dose-badge .qty-big { font-size: 1.05rem; padding: 5px 11px; }
+    .why { font-size: 0.86rem; }
+    .benefits, .cautions { font-size: 0.85rem; padding-left: 32px; }
+
+    section.principles h2 { font-size: 1.08rem; }
+    .principle-list li { font-size: 0.88rem; padding: 12px 12px 12px 46px; }
+  }
+  @media (max-width: 400px) {
+    .card { grid-template-columns: 1fr; }
+    .card-photo { max-width: 200px; margin: 0 auto; }
   }
 </style>
 </head>
@@ -239,7 +381,7 @@
 
 <header>
   <h1>영양제 복용 가이드</h1>
-  <p>사진 · 복용 시간 · 효능 · 부작용을 한눈에</p>
+  <p>언제 · 무엇을 · 몇 알 · 왜 — 한눈에</p>
 </header>
 
 <main>
@@ -247,56 +389,98 @@
     <strong>⚠️ 안내:</strong> 이 페이지는 일반적인 권장 정보를 정리한 개인 메모입니다. 제품 라벨의 지시사항이 우선이며, 복용 중인 약이 있거나 임신·수유·만성질환이 있다면 반드시 의사·약사와 상담하세요.
   </div>
 
+  <!-- ============ 상단 시간표 ============ -->
   <section class="schedule">
-    <h2>⏰ 하루 시간표 — 무엇을 몇 알, 언제?</h2>
+    <h2>⏰ 하루 시간표 — 언제 · 무엇을 · 몇 알</h2>
     <div class="timeline">
 
       <div class="slot morning">
-        <h3>🌅 아침 식후</h3>
+        <div class="slot-header">
+          <h3 class="slot-title">🌅 아침 식후</h3>
+          <span class="slot-summary">4종 / 4알</span>
+        </div>
         <div class="slot-items">
           <div class="item">
             <img class="item-thumb" src="IMG_9531.jpg" alt="B-Complex + Vitamin C" loading="lazy" />
-            <div class="item-text"><strong>B-Complex + 비타민C</strong><span class="count">1정</span></div>
+            <div>
+              <div class="item-name">B-Complex + 비타민C</div>
+              <span class="item-note">식후 물과 함께</span>
+            </div>
+            <span class="item-qty">1정</span>
           </div>
           <div class="item">
             <img class="item-thumb" src="IMG_9533.jpg" alt="L-Methylfolate 5-MTHF" loading="lazy" />
-            <div class="item-text"><strong>L-Methylfolate (5-MTHF)</strong><span class="count">1캡슐</span></div>
+            <div>
+              <div class="item-name">5-MTHF (활성 엽산)</div>
+              <span class="item-note">B12와 함께 흡수</span>
+            </div>
+            <span class="item-qty">1캡슐</span>
           </div>
           <div class="item">
             <img class="item-thumb" src="IMG_9534.jpg" alt="CoQ10 with PQQ" loading="lazy" />
-            <div class="item-text"><strong>CoQ10 + PQQ</strong><span class="count">1캡슐 (지방 있는 식사와)</span></div>
+            <div>
+              <div class="item-name">CoQ10 + PQQ</div>
+              <span class="item-note">지방 있는 식사와</span>
+            </div>
+            <span class="item-qty">1캡슐</span>
           </div>
           <div class="item">
             <img class="item-thumb" src="IMG_9529.jpg" alt="Kyolic 숙성마늘" loading="lazy" />
-            <div class="item-text"><strong>Kyolic 숙성마늘</strong><span class="count">1캐플릿</span></div>
+            <div>
+              <div class="item-name">Kyolic 숙성마늘</div>
+              <span class="item-note">아침 식사와</span>
+            </div>
+            <span class="item-qty">1캐플릿</span>
           </div>
         </div>
       </div>
 
       <div class="slot noon">
-        <h3>☀️ 낮 (점심~저녁 식후)</h3>
+        <div class="slot-header">
+          <h3 class="slot-title">☀️ 낮 (점심~저녁)</h3>
+          <span class="slot-summary">3종 / 4알</span>
+        </div>
         <div class="slot-items">
           <div class="item">
             <img class="item-thumb" src="IMG_9530.jpg" alt="Calcium Magnesium Zinc + D3" loading="lazy" />
-            <div class="item-text"><strong>칼슘·마그네슘·아연+D3</strong><span class="count">2정 (같은 식사에 함께)</span></div>
+            <div>
+              <div class="item-name">칼슘·마그네슘·아연+D3</div>
+              <span class="item-note">점심 식사에 함께</span>
+            </div>
+            <span class="item-qty">2정</span>
           </div>
           <div class="item">
             <img class="item-thumb" src="IMG_9532.jpg" alt="Arterial Protect" loading="lazy" />
-            <div class="item-text"><strong>Arterial Protect</strong><span class="count">1캡슐 (점심 식사와)</span></div>
+            <div>
+              <div class="item-name">Arterial Protect</div>
+              <span class="item-note">점심 식사와</span>
+            </div>
+            <span class="item-qty">1캡슐</span>
           </div>
           <div class="item">
             <img class="item-thumb" src="IMG_9527.jpg" alt="LactoBif 5 Probiotics" loading="lazy" />
-            <div class="item-text"><strong>LactoBif 프로바이오틱스</strong><span class="count">1캡슐 (저녁 식사 직후)</span></div>
+            <div>
+              <div class="item-name">LactoBif 프로바이오틱스</div>
+              <span class="item-note">저녁 식사 직후</span>
+            </div>
+            <span class="item-qty">1캡슐</span>
           </div>
         </div>
       </div>
 
       <div class="slot night">
-        <h3>🌙 잠들기 30~60분 전</h3>
+        <div class="slot-header">
+          <h3 class="slot-title">🌙 잠들기 30~60분 전</h3>
+          <span class="slot-summary">1종 / 2~6알</span>
+        </div>
         <div class="slot-items">
           <div class="item">
             <img class="item-thumb" src="IMG_9528.jpg" alt="Glycine 500mg" loading="lazy" />
-            <div class="item-text"><strong>Glycine 글라이신 500mg</strong><span class="count">2~6캡슐 (총 1~3g)</span></div>
+            <div>
+              <div class="item-name">Glycine 글라이신</div>
+              <span class="item-note">따뜻한 물, 공복</span>
+            </div>
+            <span class="item-qty">2~6캡슐</span>
           </div>
         </div>
       </div>
@@ -304,108 +488,23 @@
     </div>
   </section>
 
+  <!-- ============ 카드 (복용 순서대로 1열 나열) ============ -->
+
+  <div class="section-header morning">
+    🌅 아침 식후
+    <span class="sub">B-Complex+C → 5-MTHF → CoQ10+PQQ → Kyolic</span>
+  </div>
+
   <div class="cards">
-
-    <article class="card gut">
-      <img class="card-photo" src="IMG_9527.jpg" alt="California Gold Nutrition LactoBif 5 Probiotics" loading="lazy" />
-      <div class="card-body">
-        <h3>1. LactoBif 5 Probiotics</h3>
-        <div class="brand">California Gold Nutrition · 50억 CFU · 60 베지캡슐</div>
-        <div class="dose-badge noon">
-          <span class="when">☀️ 저녁 식사 직후</span>
-          <span class="qty">· 1캡슐 / 일</span>
-        </div>
-        <p class="why">8종 균주(Lactobacillus 5종 + Bifidobacterium 3종)로 장내 균형을 잡아주는 프로바이오틱스. 상온 보관 가능.</p>
-        <ul class="benefits">
-          <li>장내 유익균 균형 유지 · 배변 활동 개선</li>
-          <li>점막 면역(IgA) 조절 보조</li>
-          <li>항생제 사용 후 장내 환경 회복 보조</li>
-        </ul>
-        <ul class="cautions">
-          <li>초기 1~2주 가스·복부 팽만 가능 (점차 적응)</li>
-          <li>면역억제 환자·중증 질환자는 의사 상담 필수</li>
-          <li>항생제와는 최소 2시간 이상 간격</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="card sleep">
-      <img class="card-photo" src="IMG_9528.jpg" alt="Source Naturals Glycine 500mg" loading="lazy" />
-      <div class="card-body">
-        <h3>2. Glycine 글라이신</h3>
-        <div class="brand">Source Naturals · 500mg · 100캡슐</div>
-        <div class="dose-badge night">
-          <span class="when">🌙 취침 30~60분 전</span>
-          <span class="qty">· 2~6캡슐 (1~3g)</span>
-        </div>
-        <p class="why">심부체온을 살짝 낮춰 깊은 수면(서파수면)으로 빨리 들어가게 돕는 아미노산. 따뜻한 물과 공복 복용이 흡수가 빠르다.</p>
-        <ul class="benefits">
-          <li>수면의 질 향상(서파수면↑), 입면 잠복기 단축</li>
-          <li>다음날 피로감·졸음 완화</li>
-          <li>콜라겐·글루타치온 합성 보조</li>
-        </ul>
-        <ul class="cautions">
-          <li>드물게 위 불편·메스꺼움</li>
-          <li>클로자핀(정신과 약)과 병용 금지 (효과 감소 보고)</li>
-          <li>3g 초과 시 가벼운 졸음·어지러움 가능 → 1g(2캡슐)부터 시작</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="card cardio">
-      <img class="card-photo" src="IMG_9529.jpg" alt="Kyolic Cardiovascular 250 숙성마늘" loading="lazy" />
-      <div class="card-body">
-        <h3>3. Kyolic Cardiovascular 250</h3>
-        <div class="brand">Wakunaga · 숙성마늘 추출물(AGE) · 60 캐플릿</div>
-        <div class="dose-badge morning">
-          <span class="when">🌅 아침 식사와 함께</span>
-          <span class="qty">· 1캐플릿 / 일</span>
-        </div>
-        <p class="why">숙성마늘 추출물(AGE)이 혈압·콜레스테롤 관리, 혈관 건강 유지에 도움. 숙성 처리로 마늘 냄새와 위 자극이 거의 없다.</p>
-        <ul class="benefits">
-          <li>혈압·LDL 콜레스테롤 관리 보조</li>
-          <li>혈관 탄성·혈류 개선</li>
-          <li>무취·위 자극이 적은 숙성 형태</li>
-        </ul>
-        <ul class="cautions">
-          <li>항응고제(와파린, 아스피린)와 병용 시 출혈 위험</li>
-          <li>수술 1~2주 전 중단 권장</li>
-          <li>위장 민감 시 공복 복용 피하기</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="card mineral">
-      <img class="card-photo" src="IMG_9530.jpg" alt="21st Century Calcium Magnesium Zinc + D3" loading="lazy" />
-      <div class="card-body">
-        <h3>4. Calcium Magnesium Zinc + D3</h3>
-        <div class="brand">21st Century · 90정 · 미네랄 + 비타민 D3</div>
-        <div class="dose-badge noon">
-          <span class="when">☀️ 낮 식사와 함께</span>
-          <span class="qty">· 2정을 같은 식사에 (1일 1회)</span>
-        </div>
-        <p class="why">뼈 건강의 핵심 미네랄 3종과 D3가 같이 들어 있는 종합 미네랄제. 같은 식사에 2정을 함께 복용 (분할하지 않음).</p>
-        <ul class="benefits">
-          <li>뼈·치아 형성, 골다공증 예방</li>
-          <li>마그네슘으로 근육·신경 기능 유지</li>
-          <li>아연으로 면역·피부 회복, D3로 칼슘 흡수↑</li>
-        </ul>
-        <ul class="cautions">
-          <li>변비·복부 팽만 가능 (칼슘)</li>
-          <li>갑상선약·테트라사이클린/퀴놀론 항생제·철분제와는 2~4시간 간격</li>
-          <li>신장결석 병력자는 의사 상담</li>
-        </ul>
-      </div>
-    </article>
 
     <article class="card vitamin">
       <img class="card-photo" src="IMG_9531.jpg" alt="21st Century B-Complex Plus Vitamin C" loading="lazy" />
       <div class="card-body">
-        <h3>5. B-Complex + Vitamin C</h3>
+        <h3>1. B-Complex + Vitamin C</h3>
         <div class="brand">21st Century · 100정 · 비타민 B군 종합 + C</div>
         <div class="dose-badge morning">
-          <span class="when">🌅 아침 식후</span>
-          <span class="qty">· 1정 / 일</span>
+          <div class="when">🌅 아침 식후<small>물과 함께</small></div>
+          <span class="qty-big">1정</span>
         </div>
         <p class="why">에너지 대사에 관여하는 B군 비타민 전체와 항산화 비타민 C를 합친 활력 보충제. 저녁 늦게 먹으면 잠을 방해할 수 있다.</p>
         <ul class="benefits">
@@ -421,37 +520,14 @@
       </div>
     </article>
 
-    <article class="card cardio">
-      <img class="card-photo" src="IMG_9532.jpg" alt="Life Extension Arterial Protect" loading="lazy" />
-      <div class="card-body">
-        <h3>6. Arterial Protect</h3>
-        <div class="brand">Life Extension · 30캡슐 · 혈관 내피 지원</div>
-        <div class="dose-badge noon">
-          <span class="when">☀️ 점심 식사와 함께</span>
-          <span class="qty">· 1캡슐 / 일</span>
-        </div>
-        <p class="why">소나무껍질·감귤 추출물 등으로 동맥 내피 기능과 혈류를 지원하는 보조제. 지방이 포함된 식사와 함께 복용하면 흡수가 좋다.</p>
-        <ul class="benefits">
-          <li>혈관 내피 기능 개선</li>
-          <li>혈류·혈관 탄성 지원</li>
-          <li>강한 항산화 작용 (소나무껍질·감귤 추출물)</li>
-        </ul>
-        <ul class="cautions">
-          <li>항응고제·항혈소판제와 병용 주의 (출혈 위험)</li>
-          <li>임신·수유부 사용 금지</li>
-          <li>알레르기 체질은 첫 복용 시 소량부터</li>
-        </ul>
-      </div>
-    </article>
-
     <article class="card folate">
       <img class="card-photo" src="IMG_9533.jpg" alt="Probase Nutrition L-Methylfolate 5-MTHF 15mg" loading="lazy" />
       <div class="card-body">
-        <h3>7. L-Methylfolate 5-MTHF 15mg</h3>
+        <h3>2. L-Methylfolate 5-MTHF 15mg</h3>
         <div class="brand">Probase Nutrition · 60캡슐 · 활성형 엽산</div>
         <div class="dose-badge morning">
-          <span class="when">🌅 아침 식후</span>
-          <span class="qty">· 1캡슐 / 일 (의사 처방 따르기)</span>
+          <div class="when">🌅 아침 식후<small>B12와 함께</small></div>
+          <span class="qty-big">1캡슐</span>
         </div>
         <p class="why">엽산을 체내에서 바로 쓸 수 있는 활성형(5-MTHF)으로 공급. 15mg은 일반 식이 권장량(0.4mg)의 수십 배로 치료 용량 수준이라 자가 판단 복용은 권장되지 않는다.</p>
         <ul class="benefits">
@@ -470,16 +546,18 @@
     <article class="card energy">
       <img class="card-photo" src="IMG_9534.jpg" alt="California Gold Nutrition CoQ10 with PQQ" loading="lazy" />
       <div class="card-body">
-        <h3>8. CoQ10 with PQQ</h3>
+        <h3>3. CoQ10 with PQQ</h3>
         <div class="brand">California Gold Nutrition · 100mg CoQ10 + 10mg PQQ · 60 소프트젤</div>
         <div class="dose-badge morning">
-          <span class="when">🌅 아침 식사와 함께</span>
-          <span class="qty">· 1소프트젤 / 일</span>
+          <div class="when">🌅 아침 식사와<small>지방 있는 식사가 좋음</small></div>
+          <span class="qty-big">1캡슐</span>
         </div>
-        <p class="why">미토콘드리아 ATP 생산을 지원하는 CoQ10과 미토콘드리아 신생을 자극하는 PQQ의 조합. 지용성이라 지방이 있는 식사와 함께가 흡수에 유리.</p>
+        <p class="why">기존 미토콘드리아의 ATP 생산 효율을 높이는 CoQ10과, 새로운 미토콘드리아 생성을 촉진하는 PQQ의 조합. 둘이 합쳐지면 세포 에너지 생산량↑ + 항산화 방어 체계 강화. 지용성이라 지방이 있는 식사와 함께가 흡수에 유리.</p>
         <ul class="benefits">
-          <li>미토콘드리아 ATP 생산 지원 (CoQ10)</li>
-          <li>미토콘드리아 신생 자극, 인지 기능 보조 (PQQ)</li>
+          <li><strong>강력한 항산화</strong> — 활성산소를 중화해 세포 손상·산화 스트레스를 완화 (CoQ10)</li>
+          <li><strong>항산화 지속력 ↑</strong> — 비타민과 유사한 조효소, 기존 항산화제보다 오래 작용 (PQQ)</li>
+          <li>미토콘드리아 ATP 생산 효율↑ (CoQ10) + 새 미토콘드리아 생성 촉진 (PQQ)</li>
+          <li>염증 지표↓ · 인지 기능·기억력 개선 보조</li>
           <li>스타틴 복용자의 CoQ10 결핍 보충</li>
         </ul>
         <ul class="cautions">
@@ -490,24 +568,199 @@
       </div>
     </article>
 
+    <article class="card cardio">
+      <img class="card-photo" src="IMG_9529.jpg" alt="Kyolic Cardiovascular 250 숙성마늘" loading="lazy" />
+      <div class="card-body">
+        <h3>4. Kyolic Cardiovascular 250</h3>
+        <div class="brand">Wakunaga · 숙성마늘 추출물(AGE) · 60 캐플릿</div>
+        <div class="dose-badge morning">
+          <div class="when">🌅 아침 식사와<small>One Per Day</small></div>
+          <span class="qty-big">1캐플릿</span>
+        </div>
+        <p class="why">숙성마늘 추출물(AGE)이 혈압·콜레스테롤 관리, 혈관 건강 유지에 도움. 숙성 처리로 마늘 냄새와 위 자극이 거의 없다.</p>
+        <ul class="benefits">
+          <li>혈압·LDL 콜레스테롤 관리 보조</li>
+          <li>혈관 탄성·혈류 개선</li>
+          <li><strong>간의 해독 작용과 독소 배출을 돕습니다</strong></li>
+          <li>무취·위 자극이 적은 숙성 형태</li>
+        </ul>
+        <ul class="cautions">
+          <li>항응고제(와파린, 아스피린)와 병용 시 출혈 위험</li>
+          <li>수술 1~2주 전 중단 권장</li>
+          <li>위장 민감 시 공복 복용 피하기</li>
+        </ul>
+      </div>
+    </article>
+
   </div>
 
+  <div class="section-header noon">
+    ☀️ 낮 (점심~저녁)
+    <span class="sub">칼슘·마그네슘·아연+D3 → Arterial Protect → LactoBif(저녁)</span>
+  </div>
+
+  <div class="cards">
+
+    <article class="card mineral">
+      <img class="card-photo" src="IMG_9530.jpg" alt="21st Century Calcium Magnesium Zinc + D3" loading="lazy" />
+      <div class="card-body">
+        <h3>5. Calcium Magnesium Zinc + D3</h3>
+        <div class="brand">21st Century · 90정 · 미네랄 + 비타민 D3</div>
+        <div class="dose-badge noon">
+          <div class="when">☀️ 점심 식사와<small>같은 식사에 함께</small></div>
+          <span class="qty-big">2정</span>
+        </div>
+        <p class="why">뼈 건강의 핵심 미네랄 3종과 D3가 같이 들어 있는 종합 미네랄제. 같은 식사에 2정을 함께 복용 (분할하지 않음).</p>
+        <ul class="benefits">
+          <li>뼈·치아 형성, 골다공증 예방</li>
+          <li>마그네슘으로 근육·신경 기능 유지</li>
+          <li>아연으로 면역·피부 회복, D3로 칼슘 흡수↑</li>
+        </ul>
+        <ul class="cautions">
+          <li>변비·복부 팽만 가능 (칼슘)</li>
+          <li>갑상선약·테트라사이클린/퀴놀론 항생제·철분제와는 2~4시간 간격</li>
+          <li>신장결석 병력자는 의사 상담</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card cardio">
+      <img class="card-photo" src="IMG_9532.jpg" alt="Life Extension Arterial Protect" loading="lazy" />
+      <div class="card-body">
+        <h3>6. Arterial Protect</h3>
+        <div class="brand">Life Extension · 30캡슐 · 혈관 내피 지원</div>
+        <div class="dose-badge noon">
+          <div class="when">☀️ 점심 식사와<small>지방 흡수 성분</small></div>
+          <span class="qty-big">1캡슐</span>
+        </div>
+        <p class="why"><strong>주요 성분:</strong> 강력한 항산화·혈관 보호 성분인 <strong>피크노제놀</strong>(프랑스 해안송 껍질 추출물)과 <strong>센텔라 아시아티카</strong>(병풀 추출물)가 함유. 정맥 혈관의 압력을 낮추고 늘어난 혈관 틈을 좁혀 하체 순환을 돕는다 — 다리가 땡땡하게 붓는 느낌과 통증 개선에 효과. 지방이 포함된 식사와 함께 복용하면 흡수가 좋다.</p>
+        <ul class="benefits">
+          <li><strong>다리 붓기·통증 개선</strong> — 정맥 압력↓, 늘어난 혈관 틈을 좁혀 하체 순환↑</li>
+          <li>혈관 내피 기능 개선</li>
+          <li>혈류·혈관 탄성 지원</li>
+          <li>강한 항산화 작용 (피크노제놀 + 센텔라 아시아티카)</li>
+        </ul>
+        <ul class="cautions">
+          <li>항응고제·항혈소판제와 병용 주의 (출혈 위험)</li>
+          <li>임신·수유부 사용 금지</li>
+          <li>알레르기 체질은 첫 복용 시 소량부터</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card gut">
+      <img class="card-photo" src="IMG_9527.jpg" alt="California Gold Nutrition LactoBif 5 Probiotics" loading="lazy" />
+      <div class="card-body">
+        <h3>7. LactoBif 5 Probiotics</h3>
+        <div class="brand">California Gold Nutrition · 50억 CFU · 60 베지캡슐</div>
+        <div class="dose-badge noon">
+          <div class="when">☀️ 저녁 식사 직후<small>물 한 컵과 함께</small></div>
+          <span class="qty-big">1캡슐</span>
+        </div>
+        <p class="why">8종 균주(Lactobacillus 5종 + Bifidobacterium 3종)로 장내 균형을 잡아주는 프로바이오틱스. 상온 보관 가능.</p>
+        <ul class="benefits">
+          <li>장내 유익균 균형 유지 · 배변 활동 개선</li>
+          <li>점막 면역(IgA) 조절 보조</li>
+          <li>항생제 사용 후 장내 환경 회복 보조</li>
+        </ul>
+        <ul class="cautions">
+          <li>초기 1~2주 가스·복부 팽만 가능 (점차 적응)</li>
+          <li>면역억제 환자·중증 질환자는 의사 상담 필수</li>
+          <li>항생제와는 최소 2시간 이상 간격</li>
+        </ul>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="section-header night">
+    🌙 잠들기 30~60분 전
+    <span class="sub">Glycine</span>
+  </div>
+
+  <div class="cards">
+
+    <article class="card sleep">
+      <img class="card-photo" src="IMG_9528.jpg" alt="Source Naturals Glycine 500mg" loading="lazy" />
+      <div class="card-body">
+        <h3>8. Glycine 글라이신</h3>
+        <div class="brand">Source Naturals · 500mg · 100캡슐</div>
+        <div class="dose-badge night">
+          <div class="when">🌙 취침 30~60분 전<small>따뜻한 물 · 공복</small></div>
+          <span class="qty-big">2~6캡슐</span>
+        </div>
+        <p class="why">심부체온을 살짝 낮춰 깊은 수면(서파수면)으로 빨리 들어가게 돕는 아미노산. 1g(2캡슐)부터 시작해 3g(6캡슐)까지 점진적으로 늘릴 것.</p>
+        <ul class="benefits">
+          <li>수면의 질 향상(서파수면↑), 입면 잠복기 단축</li>
+          <li>다음날 피로감·졸음 완화</li>
+          <li>콜라겐·글루타치온 합성 보조</li>
+        </ul>
+        <ul class="cautions">
+          <li>드물게 위 불편·메스꺼움</li>
+          <li>클로자핀(정신과 약)과 병용 금지 (효과 감소 보고)</li>
+          <li>3g 초과 시 가벼운 졸음·어지러움 가능 → 1g(2캡슐)부터 시작</li>
+        </ul>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ============ 핵심 원칙 (축약) ============ -->
   <section class="principles">
     <h2>💡 핵심 원칙 5가지</h2>
-    <ol>
-      <li><strong>지용성은 식사와 함께:</strong> 비타민 D3, CoQ10, PQQ, Arterial Protect는 지방이 있는 식사와 함께.</li>
-      <li><strong>수용성은 식후 물과 함께:</strong> B군, 비타민 C는 아침 식후가 가장 무난.</li>
-      <li><strong>각성 효과 영양제는 오전:</strong> B군, CoQ10/PQQ는 저녁 늦게 먹지 않기.</li>
-      <li><strong>칼슘은 같은 식사에 2정 함께:</strong> 1정·1정으로 나누면 챙기기 번거롭고 누락되기 쉽다 — 같은 식사에 함께 먹는 편이 현실적이다. (단, 한 번에 칼슘 500mg 이상은 흡수율이 떨어진다는 점 인지)</li>
-      <li><strong>간격 두기:</strong> 항생제·갑상선약·철분제와 미네랄·프로바이오틱스는 2~4시간 간격.</li>
+    <ol class="principle-list">
+      <li><strong>지용성 → 지방 식사와</strong>D3·CoQ10·PQQ·Arterial Protect</li>
+      <li><strong>수용성 → 아침 식후 물과</strong>B군·비타민 C</li>
+      <li><strong>각성 영양제는 오전만</strong>B군·CoQ10/PQQ는 저녁 X</li>
+      <li><strong>칼슘은 같은 식사에 한 번에</strong>2정 분할보다 한 끼에 함께</li>
+      <li><strong>간섭 약물과는 2~4시간 간격</strong>항생제·갑상선약·철분제</li>
     </ol>
   </section>
 
 </main>
 
 <footer>
-  © 나의 영양제 가이드 · 라벨의 권장 복용량과 의료 전문가의 조언이 최우선입니다.
+  © 영양제 복용 가이드 · 라벨의 권장 복용량과 의료 전문가의 조언이 최우선입니다.
 </footer>
+
+<!-- ============ Lightbox ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-label="사진 확대 보기">
+  <button class="lightbox-close" id="lightboxClose" aria-label="닫기">×</button>
+  <img id="lightboxImg" src="" alt="" />
+</div>
+
+<script>
+  (function() {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbClose = document.getElementById('lightboxClose');
+
+    function openLb(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb() {
+      lb.classList.remove('open');
+      lbImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.item-thumb, .card-photo').forEach(function(el) {
+      el.addEventListener('click', function() {
+        openLb(el.getAttribute('src'), el.getAttribute('alt'));
+      });
+    });
+    lb.addEventListener('click', function(e) {
+      if (e.target === lb || e.target === lbImg) closeLb();
+    });
+    lbClose.addEventListener('click', closeLb);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lb.classList.contains('open')) closeLb();
+    });
+  })();
+</script>
 
 </body>
 </html>
