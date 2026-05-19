@@ -568,6 +568,148 @@
   }
   .lightbox-close:hover { background: rgba(255, 255, 255, 0.28); }
 
+  /* ───────── Surgery flag + guide ───────── */
+  .card-surgery-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+  }
+
+  section.surgery-guide {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px 22px 18px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-soft);
+    margin-top: 28px;
+  }
+  section.surgery-guide h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.01em;
+  }
+  .surgery-callout {
+    background: #fef2f2;
+    color: #991b1b;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 12px 0 4px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .surgery-group { margin-top: 18px; }
+  .surgery-group-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.005em;
+  }
+  .surgery-group-title .sub {
+    font-size: 0.74rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .surgery-group.high .surgery-group-title { color: #991b1b; }
+  .surgery-group.mid  .surgery-group-title { color: #92400e; }
+  .surgery-group.low  .surgery-group-title { color: #065f46; }
+
+  .surgery-group-list {
+    background: #fafafb;
+    border-radius: 12px;
+    padding: 6px;
+  }
+  .surgery-item {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 10px;
+    color: var(--text);
+    transition: background 0.12s ease, transform 0.12s ease;
+  }
+  .surgery-item + .surgery-item { margin-top: 2px; }
+  .surgery-item:hover { background: rgba(255, 255, 255, 0.85); }
+  .surgery-item:active { transform: scale(0.99); }
+  .surgery-item .item-thumb { width: 48px; height: 48px; border-radius: 10px; }
+  .surgery-qty {
+    font-weight: 800;
+    font-size: 0.78rem;
+    padding: 5px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+    letter-spacing: -0.005em;
+  }
+  .surgery-qty.risk-high { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+  .surgery-qty.risk-mid  { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+  .surgery-qty.risk-low  { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+
+  .surgery-resume {
+    background: #f8f9fc;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    line-height: 1.55;
+  }
+  .surgery-resume-title {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+  .surgery-resume ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .surgery-resume li {
+    padding-left: 14px;
+    position: relative;
+  }
+  .surgery-resume li::before {
+    content: "·";
+    position: absolute;
+    left: 4px;
+    top: -3px;
+    font-weight: 900;
+    color: var(--muted);
+  }
+  .surgery-resume strong { color: var(--text); font-weight: 700; }
+
+  .surgery-warning {
+    font-size: 0.76rem;
+    color: var(--muted);
+    text-align: center;
+    margin: 14px 0 0;
+    line-height: 1.5;
+  }
+
   /* ───────── Responsive ───────── */
   @media (max-width: 540px) {
     main { padding: 6px 12px 48px; }
@@ -595,6 +737,14 @@
 
     section.principles { padding: 16px; }
     .principle-list li { font-size: 0.84rem; padding-left: 40px; }
+
+    .card-surgery-flag { font-size: 0.68rem; padding: 3px 8px; }
+    section.surgery-guide { padding: 18px 16px 14px; }
+    section.surgery-guide h2 { font-size: 1rem; }
+    .surgery-item { grid-template-columns: 44px 1fr auto; gap: 10px; padding: 7px; }
+    .surgery-item .item-thumb { width: 44px; height: 44px; }
+    .surgery-qty { font-size: 0.72rem; padding: 4px 9px; }
+    .surgery-resume { font-size: 0.82rem; padding: 12px 14px; }
   }
   @media (max-width: 360px) {
     .card-main { grid-template-columns: 72px 1fr; gap: 10px; }
@@ -613,6 +763,106 @@
 </header>
 
 <main>
+
+  <!-- ============ 🏥 수술 전후 가이드 ============ -->
+  <section class="surgery-guide" aria-label="수술 전후 복용 가이드">
+    <h2>🏥 수술 전후 복용 가이드</h2>
+    <p class="surgery-callout">의사 · 마취과 전문의에게 복용 중인 영양제 목록을 그대로 보여주세요</p>
+
+    <div class="surgery-group high">
+      <div class="surgery-group-title">🔴 수술 14일 전 중단 <span class="sub">출혈 위험</span></div>
+      <div class="surgery-group-list">
+        <a class="surgery-item" href="#card-kyolic">
+          <img class="item-thumb" src="IMG_9529.jpg" alt="Kyolic 숙성마늘" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">Kyolic 숙성마늘</div>
+            <span class="item-note">혈소판 응집 강력 억제 (ASPS Top 10)</span>
+          </div>
+          <span class="surgery-qty risk-high">14일 전 중단</span>
+        </a>
+        <a class="surgery-item" href="#card-coq10">
+          <img class="item-thumb" src="IMG_9534.jpg" alt="CoQ10 + PQQ" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">CoQ10 + PQQ</div>
+            <span class="item-note">비타민 K 유사 구조 · 항응고 영향</span>
+          </div>
+          <span class="surgery-qty risk-high">14일 전 중단</span>
+        </a>
+        <a class="surgery-item" href="#card-arterial">
+          <img class="item-thumb" src="IMG_9532.jpg" alt="Arterial Protect" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">Arterial Protect</div>
+            <span class="item-note">피크노제놀이 혈소판 응집 억제</span>
+          </div>
+          <span class="surgery-qty risk-high">14일 전 중단</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="surgery-group mid">
+      <div class="surgery-group-title">🟡 부분 중단 · 의사 상담</div>
+      <div class="surgery-group-list">
+        <a class="surgery-item" href="#card-mthf">
+          <img class="item-thumb" src="IMG_9533.jpg" alt="5-MTHF 15mg" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">5-MTHF 15mg</div>
+            <span class="item-note">메디컬 푸드 수준 고용량 — 의사 인지 필요</span>
+          </div>
+          <span class="surgery-qty risk-mid">7일 전 중단</span>
+        </a>
+        <a class="surgery-item" href="#card-bcomplex">
+          <img class="item-thumb" src="IMG_9531.jpg" alt="B-Complex + Vitamin C" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">B-Complex + Vitamin C</div>
+            <span class="item-note">고용량 Vit C(&gt;1g)만 중단, RDA 수준 OK</span>
+          </div>
+          <span class="surgery-qty risk-mid">메가도즈 중단</span>
+        </a>
+        <a class="surgery-item" href="#card-mineral">
+          <img class="item-thumb" src="IMG_9530.jpg" alt="Ca·Mg·Zn + D3" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">Ca·Mg·Zn + D3</div>
+            <span class="item-note">Mg가 마취 보조제(신경근차단)와 상호작용</span>
+          </div>
+          <span class="surgery-qty risk-mid">Mg 24~48h 전</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="surgery-group low">
+      <div class="surgery-group-title">🟢 안전 · 회복기 도움</div>
+      <div class="surgery-group-list">
+        <a class="surgery-item" href="#card-probiotics">
+          <img class="item-thumb" src="IMG_9527.jpg" alt="LactoBif 프로바이오틱스" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">LactoBif 프로바이오틱스</div>
+            <span class="item-note">술후 항생제 사용 시 장내 회복 보조</span>
+          </div>
+          <span class="surgery-qty risk-low">계속 가능</span>
+        </a>
+        <a class="surgery-item" href="#card-glycine">
+          <img class="item-thumb" src="IMG_9528.jpg" alt="Glycine 글라이신" loading="lazy" />
+          <div class="item-text">
+            <div class="item-name">Glycine 글라이신</div>
+            <span class="item-note">콜라겐 합성 · 수면 회복 지원</span>
+          </div>
+          <span class="surgery-qty risk-low">계속 가능</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="surgery-resume">
+      <span class="surgery-resume-title">📋 수술 후 재개 가이드 (시술 규모별 일반론)</span>
+      <ul>
+        <li><strong>시술(필러 · 보톡스)</strong> — 24시간 후 재개 가능</li>
+        <li><strong>중간 수술(쌍꺼풀 · 코)</strong> — 출혈 위험 영양제는 7~14일 후 재개</li>
+        <li><strong>큰 수술(지방이식 · 안면윤곽)</strong> — 14~21일 후, 집도의 지시 우선</li>
+        <li><strong>회복기 활용</strong> — Vit C · Zn · D3 · Glycine은 수술 직후부터 도움. Centella(Arterial Protect 성분)는 흉터 감소에 좋지만 동봉된 피크노제놀 때문에 출혈 위험 가신 후(14일+) 재개</li>
+      </ul>
+    </div>
+
+    <p class="surgery-warning">⚠️ 본 정보는 일반 권장. 실제 일정은 반드시 집도의 · 마취과 의사와 상담하세요</p>
+  </section>
 
   <!-- ============ 시간표 (탭) ============ -->
   <section class="schedule" aria-label="시간대별 복용표">
@@ -800,6 +1050,7 @@
       <article class="card" id="card-coq10">
         <div class="card-top">
           <span class="card-time-chip">🌅 아침 식후</span>
+          <span class="card-surgery-flag" title="상단 '수술 전후 가이드' 참조">🚨 수술 14일 전 중단</span>
           <span class="card-dose"><span class="qty-num">× 1</span> 소프트젤</span>
         </div>
         <div class="card-main">
@@ -827,6 +1078,7 @@
       <article class="card" id="card-kyolic">
         <div class="card-top">
           <span class="card-time-chip">🌅 아침 식후</span>
+          <span class="card-surgery-flag" title="상단 '수술 전후 가이드' 참조">🚨 수술 14일 전 중단</span>
           <span class="card-dose"><span class="qty-num">× 1</span> 캐플릿</span>
         </div>
         <div class="card-main">
@@ -894,6 +1146,7 @@
       <article class="card" id="card-arterial">
         <div class="card-top">
           <span class="card-time-chip">☀️ 점심 식사와</span>
+          <span class="card-surgery-flag" title="상단 '수술 전후 가이드' 참조">🚨 수술 14일 전 중단</span>
           <span class="card-dose"><span class="qty-num">× 1</span> 캡슐</span>
         </div>
         <div class="card-main">
@@ -1070,7 +1323,7 @@
   });
 
   // schedule item click → smooth scroll + highlight (and update hash)
-  document.querySelectorAll('a.item').forEach(a => {
+  document.querySelectorAll('a.item, a.surgery-item').forEach(a => {
     a.addEventListener('click', (e) => {
       const href = a.getAttribute('href') || '';
       if (!href.startsWith('#')) return;
